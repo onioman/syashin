@@ -1,0 +1,11 @@
+{% load staticfiles %}
+
+{% if latest_images %}
+	<ul>
+		{% for image in latest_images %}
+		<li><img src="{% static 'gallery/' %}/{{ image.location }}" width="200"></li>
+		{% endfor %}
+	</ul>
+{% else %}
+	<p>No images available.</p>
+{% endif %}
