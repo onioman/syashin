@@ -6,6 +6,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'syashin.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^gallery/', include('gallery.urls')),
+    url(r'^gallery/', include('gallery.urls', namespace="gallery")),
     url(r'^admin/', include(admin.site.urls)),
 )
