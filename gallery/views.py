@@ -1,16 +1,28 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.utils import timezone
+from django.views import generic
 
 from gallery.models import Image
 
 def index(request):
-    latest_images = Image.objects.order_by('-taken_date')[:5]
+    latest_images = Image.objects.filter(add_date__lte=timezone.now()
+            ).order_by('-taken_date')[:5]
     context = {'latest_images' : latest_images}
     return render(request, 'gallery/index.html', context)
 
+class IndexView(generic.ListView):
+    template_name = 'gallery/index.html'
+    context_object_name = 'latest_images'
+
+    def get_queryset(self):
+        return Image.objects.filter(add_date__lte=timezone.now()
+                ).order_by('-taken_date')[:5]
+
 def detail(request, image_id):
-    image = get_object_or_404(Image, pk=image_id)
+    image = get_object_or_404(Image, pk=image_id, add_date__lte=timezone.now())
+    print image
     return render(request, 'gallery/image_full.html', {'image' : image })
 
 def change(request, image_id):
