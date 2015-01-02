@@ -1,9 +1,15 @@
 {% load staticfiles %}
 
+<link rel="stylesheet" type="text/css" href="{% static 'gallery/style.css' %}" />
+
 {% if latest_images %}
-	<ul>
+	<ul class="gallery columns-3">
 		{% for image in latest_images %}
-		<li><img src="{% static 'gallery/' %}/{{ image.location }}" width="200"></li>
+		<li>
+			<img src="{% static 'gallery/' %}/{{ image.location }}">
+			<h3> {{ image.title }} </h3>
+			<p> Taken: {{ image.taken_date }} </p>
+		</li>
 		{% endfor %}
 	</ul>
 {% else %}
