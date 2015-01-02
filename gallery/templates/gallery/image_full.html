@@ -1,6 +1,8 @@
 {% load staticfiles %}
 
-<h1>Image {{ image.location }} </h1>
+<link rel="stylesheet" type="text/css" href="{% static 'gallery/style.css' %}" />
+
+<input type="text" name="title" value="{{ image.title }}" class=title></br>
 
 <img src="{% static 'gallery/' %}/{{ image.location }}" width="200">
 <br>
