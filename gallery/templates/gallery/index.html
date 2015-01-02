@@ -1,9 +1,21 @@
 {% load staticfiles %}
 
+<script src="{% static 'gallery/jquery-1.11.2.min.js' %}"></script>
+<script src="{% static 'gallery/jquery-ui.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'gallery/style.css' %}" />
 
+<style>
+#selectable .ui-selecting { background: #FECA40; }
+#selectable .ui-selected { background: #F39814; color: white; }
+</style>
+<script>
+	$(function() {
+		$( "#selectable" ).selectable();
+	});
+</script>
+
 {% if latest_images %}
-	<ul class="gallery columns-3">
+	<ul class="gallery columns-3" id="selectable">
 		{% for image in latest_images %}
 		<li>
 			<img src="{% static 'gallery/' %}/{{ image.location }}">
