@@ -9,15 +9,20 @@
 #selectable .ui-selected { background: #F39814; color: white; }
 </style>
 <script>
+	var selectedImages = {};
 	$(function() {
 		$( "#selectable" ).bind("mousedown", function(e) {
 			e.metaKey = true;
 		}).selectable({
 				selected: function(event, ui) {
-					var selected = $("li[class$='ui-selected']");
+					selectedImages[ui.selected.id] = true;
+					var selectedInput =  document.getElementById("newAlbumImages");
+					selectedInput.value = Object.keys(selectedImages);
 				},
 				unselected: function(event, ui) {
-					var selected = $("li[class$='ui-selected']").length;
+					delete selectedImages[ui.unselected.id];
+					var selectedInput =  document.getElementById("newAlbumImages");
+					selectedInput.value = Object.keys(selectedImages);
 				}
 		});
 	});
@@ -26,7 +31,15 @@
 <div class="page">
 	<div class="pageRow">
 	<div class="navbar">
-		<h3>Albums</h3>
+		<h2>Albums</h2>
+		<h3>New</h3>
+		<form action="{% url 'gallery:albumCreate' %}" method="post">
+			{% csrf_token %}
+			<input type="text" name="name" value="Album name" />
+			<input type="text" name="images" value="Images" id="newAlbumImages" readonly />
+			<input type="submit" value="Create" />
+		</form>
+		<h3>Existing</h3>
 		<a href="{% url 'gallery:index' %}">All</a><br>
 		{% for album in albums %}
 		<a href="{% url 'gallery:albumIndex' album.id %}">{{album.name}} [{{album.size }}]</a><br>
@@ -40,7 +53,7 @@
 		{% if images %}
 			<ul class="gallery columns-3" id="selectable">
 				{% for image in images %}
-				<li>
+				<li id="{{ image.id }}">
 					<img src="{% static 'gallery/' %}/{{ image.location }}">
 					<h3> {{ image.title }} </h3>
 					<p> Taken: {{ image.taken_date }} </p>

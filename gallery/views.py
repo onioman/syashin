@@ -25,6 +25,16 @@ def albumIndex(request, album_id):
             }
     return render(request, 'gallery/index.html', context)
 
+def albumCreate(request):
+    album = Album()
+    album.name = request.POST['name']
+    album.save()
+    image_ids = request.POST['images'].split(',')
+    for image_id in image_ids:
+        image = get_object_or_404(Image, pk=image_id)
+        album.images.add(image)
+    return HttpResponseRedirect(reverse('gallery:albumIndex', args=(album.id,)))
+
 class IndexView(generic.ListView):
     template_name = 'gallery/index.html'
     context_object_name = 'images'
