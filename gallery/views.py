@@ -4,17 +4,30 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.views import generic
 
-from gallery.models import Image
+from gallery.models import Image,Album
 
 def index(request):
-    latest_images = Image.objects.filter(add_date__lte=timezone.now()
-            ).order_by('-taken_date')[:5]
-    context = {'latest_images' : latest_images}
+    images = Image.objects.filter(add_date__lte=timezone.now()
+            ).order_by('-taken_date')
+    albums = Album.objects.all()
+    context = {'images' : images, 'albums' : albums}
+    return render(request, 'gallery/index.html', context)
+
+def albumIndex(request, album_id):
+    albums = Album.objects.all()
+    album = get_object_or_404(Album, pk=album_id)
+    album_name = album.name
+    images = album.images.all()
+    context = {
+            'images' : images,
+            'albums' : albums,
+            'album_name': album_name
+            }
     return render(request, 'gallery/index.html', context)
 
 class IndexView(generic.ListView):
     template_name = 'gallery/index.html'
-    context_object_name = 'latest_images'
+    context_object_name = 'images'
 
     def get_queryset(self):
         return Image.objects.filter(add_date__lte=timezone.now()

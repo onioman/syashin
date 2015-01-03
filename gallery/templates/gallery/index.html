@@ -10,20 +10,36 @@
 </style>
 <script>
 	$(function() {
-		$( "#selectable" ).selectable();
+		$( "#selectable" ).bind("mousedown", function(e) {
+			e.metaKey = true;
+		}).selectable({
+				selected: function(event, ui) {
+					var selected = $("li[class$='ui-selected']");
+				},
+				unselected: function(event, ui) {
+					var selected = $("li[class$='ui-selected']").length;
+				}
+		});
 	});
 </script>
 
 <div class="page">
 	<div class="pageRow">
 	<div class="navbar">
-		<h1>Albums</h1>
+		<h3>Albums</h3>
+		<a href="{% url 'gallery:index' %}">All</a><br>
+		{% for album in albums %}
+		<a href="{% url 'gallery:albumIndex' album.id %}">{{album.name}} [{{album.size }}]</a><br>
+		{% endfor %}
 	</div>
 
 	<div class="content">
-		{% if latest_images %}
+		{% if album_name %}
+			<h2> {{ album_name }} </h2>
+		{% endif %}
+		{% if images %}
 			<ul class="gallery columns-3" id="selectable">
-				{% for image in latest_images %}
+				{% for image in images %}
 				<li>
 					<img src="{% static 'gallery/' %}/{{ image.location }}">
 					<h3> {{ image.title }} </h3>

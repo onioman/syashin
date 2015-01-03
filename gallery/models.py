@@ -20,5 +20,8 @@ class Album(models.Model):
     images  = models.ManyToManyField(Image)
     name    = models.CharField(max_length=100) 
 
+    def size(self):
+        return len(self.images.all())
+
     def __str__(self):
-        return "Album: %s [%s]"%(self.name, len(self.images))
+        return "Album: %s [%s]"%(self.name, len(self.images.all()))
