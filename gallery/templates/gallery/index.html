@@ -14,16 +14,26 @@
 	});
 </script>
 
-{% if latest_images %}
-	<ul class="gallery columns-3" id="selectable">
-		{% for image in latest_images %}
-		<li>
-			<img src="{% static 'gallery/' %}/{{ image.location }}">
-			<h3> {{ image.title }} </h3>
-			<p> Taken: {{ image.taken_date }} </p>
-		</li>
-		{% endfor %}
-	</ul>
-{% else %}
-	<p>No images available.</p>
-{% endif %}
+<div class="page">
+	<div class="pageRow">
+	<div class="navbar">
+		<h1>Albums</h1>
+	</div>
+
+	<div class="content">
+		{% if latest_images %}
+			<ul class="gallery columns-3" id="selectable">
+				{% for image in latest_images %}
+				<li>
+					<img src="{% static 'gallery/' %}/{{ image.location }}">
+					<h3> {{ image.title }} </h3>
+					<p> Taken: {{ image.taken_date }} </p>
+				</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>No images available.</p>
+		{% endif %}
+	</div>
+	</div>
+</div>

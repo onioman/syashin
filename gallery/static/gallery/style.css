@@ -4,6 +4,28 @@ input.title {
 	placeholder: "No title";
 }
 
+.page {
+	display: table;
+	width: 100%;
+}
+
+.pageRow {
+	display: table-row;
+}
+
+.navbar {
+	display: table-cell;
+	width: 8%;
+	padding:10px;
+	background-color: #eeeeee;
+}
+
+.content {
+	display: table-cell;
+	width:91%;
+	padding:10px;
+}
+
 ul.gallery {
 	list-style: none;
 	font-size: 0px;
@@ -42,5 +64,5 @@ ul.gallery li p {
 }
 
 ul.gallery.columns-3 li {
-	width: 30.83%
+	width: 27.83%
 }
