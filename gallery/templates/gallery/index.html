@@ -26,7 +26,18 @@
 				}
 		});
 	});
+	var showFullScreen = function(imageLocation) {
+		document.getElementById("fullscreenOverlay").style.display = "block";
+		document.getElementById("fullscreenImage").src = "{% static 'gallery/' %}"+imageLocation;
+	}
+	var hideFullScreen = function() {
+		document.getElementById("fullscreenOverlay").style.display = "none";
+	}
 </script>
+
+<div id="fullscreenOverlay" class="overlay" style="display:none;">
+<img id="fullscreenImage" onclick="hideFullScreen()" src="{% static 'gallery/' %}/assets/img.jpeg">
+</div>
 
 <div class="page">
 	<div class="pageRow">
@@ -57,6 +68,7 @@
 					<img src="{% static 'gallery/' %}/{{ image.location }}">
 					<h3> {{ image.title }} </h3>
 					<p> Taken: {{ image.taken_date }} </p>
+					<button type="button" onclick="showFullScreen('{{ image.location }}')">View</button>
 				</li>
 				{% endfor %}
 			</ul>

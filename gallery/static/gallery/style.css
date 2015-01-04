@@ -4,6 +4,23 @@ input.title {
 	placeholder: "No title";
 }
 
+.overlay {
+	height:100%;
+	width:100%;
+	position:fixed;
+	left:0;
+	top:0;
+	z-index:1 !important;
+	background: rgba(0, 0, 0, 0.5);
+}
+.overlay img {
+	display: block;
+	max-width: 90%;
+	height: auto;
+	margin: 0 auto;
+}
+
+
 .page {
 	display: table;
 	width: 100%;
