@@ -16,12 +16,11 @@ def index(request):
 def albumIndex(request, album_id):
     albums = Album.objects.all()
     album = get_object_or_404(Album, pk=album_id)
-    album_name = album.name
     images = album.images.all()
     context = {
             'images' : images,
             'albums' : albums,
-            'album_name': album_name
+            'album'  : album
             }
     return render(request, 'gallery/index.html', context)
 
@@ -33,6 +32,13 @@ def albumCreate(request):
     for image_id in image_ids:
         image = get_object_or_404(Image, pk=image_id)
         album.images.add(image)
+    return HttpResponseRedirect(reverse('gallery:albumIndex', args=(album.id,)))
+
+def albumRemoveImage(request, album_id, image_id):
+    album = get_object_or_404(Album, pk=album_id)
+    image = get_object_or_404(Image, pk=image_id)
+    album.images.remove(image)
+    album.save()
     return HttpResponseRedirect(reverse('gallery:albumIndex', args=(album.id,)))
 
 class IndexView(generic.ListView):

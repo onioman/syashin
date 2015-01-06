@@ -58,8 +58,8 @@
 	</div>
 
 	<div class="content">
-		{% if album_name %}
-			<h2> {{ album_name }} </h2>
+		{% if album %}
+			<h2> {{ album.name }} </h2>
 		{% endif %}
 		{% if images %}
 			<ul class="gallery columns-3" id="selectable">
@@ -69,6 +69,12 @@
 					<h3> {{ image.title }} </h3>
 					<p> Taken: {{ image.taken_date }} </p>
 					<button type="button" onclick="showFullScreen('{{ image.location }}')">View</button>
+					{% if album %}
+						<form action="{% url 'gallery:albumRemoveImage' album.id image.id %}" method="post">
+							{% csrf_token %}
+							<input type="submit" value="Remove" />
+						</form>
+					{% endif %}
 				</li>
 				{% endfor %}
 			</ul>
