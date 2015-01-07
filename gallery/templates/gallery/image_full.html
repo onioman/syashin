@@ -4,7 +4,7 @@
 
 <input type="text" name="title" value="{{ image.title }}" class=title></br>
 
-<img src="{% static 'gallery/' %}/{{ image.location }}" width="200">
+<img src="{{ MEDIA_URL }}/{{ image.location }}" width="200">
 <br>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p><br>{% endif %}
 
