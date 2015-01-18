@@ -26,9 +26,9 @@
 				}
 		});
 	});
-	var showFullScreen = function(imageLocation) {
+	var showFullScreen = function(imageURL) {
 		document.getElementById("fullscreenOverlay").style.display = "block";
-		document.getElementById("fullscreenImage").src = "{{ MEDIA_URL }}"+imageLocation;
+		document.getElementById("fullscreenImage").src = imageURL;
 	}
 	var hideFullScreen = function() {
 		document.getElementById("fullscreenOverlay").style.display = "none";
@@ -65,10 +65,10 @@
 			<ul class="gallery columns-3" id="selectable">
 				{% for image in images %}
 				<li id="{{ image.id }}">
-					<img src="{{ MEDIA_URL }}/{{ image.location }}">
+					<img src="{{ image.imgfile.url }}">
 					<h3> {{ image.title }} </h3>
 					<p> Taken: {{ image.taken_date }} </p>
-					<button type="button" onclick="showFullScreen('{{ image.location }}')">View</button>
+					<button type="button" onclick="showFullScreen('{{ image.imgfile.url }}')">View</button>
 					{% if album %}
 						<form action="{% url 'gallery:albumRemoveImage' album.id image.id %}" method="post">
 							{% csrf_token %}

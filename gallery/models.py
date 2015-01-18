@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 class Image(models.Model):
-    location    = models.CharField(max_length=200)
+    imgfile     = models.FileField(upload_to='upload/%Y%m%d')
     add_date    = models.DateTimeField('date added')
     taken_date  = models.DateTimeField('date taken')
     title       = models.CharField(max_length=100)
