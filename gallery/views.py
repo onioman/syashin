@@ -5,13 +5,25 @@ from django.utils import timezone
 from django.views import generic
 
 from gallery.models import Image,Album
+from gallery.forms import ImageForm
 
 def index(request):
+    # add the post thing?
+
     images = Image.objects.filter(add_date__lte=timezone.now()
             ).order_by('-taken_date')
     albums = Album.objects.all()
-    context = {'images' : images, 'albums' : albums}
+    image_form = ImageForm()
+    context = {'images' : images, 'albums' : albums, 
+            'image_form' : image_form }
     return render(request, 'gallery/index.html', context)
+
+def imageCreate(request):
+    form = ImageForm(request.POST, request.FILES)
+    if form.is_valid():
+        new_image = Image.create(request.FILES['imgfile'], request.POST['title'])
+        new_image.save()
+        return HttpResponseRedirect(reverse('gallery:index'))
 
 def albumIndex(request, album_id):
     albums = Album.objects.all()

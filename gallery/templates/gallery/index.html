@@ -26,9 +26,9 @@
 				}
 		});
 	});
-	var showFullScreen = function(imageLocation) {
+	var showFullScreen = function(imageURL) {
 		document.getElementById("fullscreenOverlay").style.display = "block";
-		document.getElementById("fullscreenImage").src = "{% static 'gallery/' %}"+imageLocation;
+		document.getElementById("fullscreenImage").src = imageURL;
 	}
 	var hideFullScreen = function() {
 		document.getElementById("fullscreenOverlay").style.display = "none";
@@ -36,12 +36,31 @@
 </script>
 
 <div id="fullscreenOverlay" class="overlay" style="display:none;">
-<img id="fullscreenImage" onclick="hideFullScreen()" src="{% static 'gallery/' %}/assets/img.jpeg">
+	<img id="fullscreenImage" onclick="hideFullScreen()" src="" alt="nothing" >
 </div>
 
 <div class="page">
 	<div class="pageRow">
 	<div class="navbar">
+		<h2>Add image</h2>
+		<form action="{% url 'gallery:imageCreate' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<p>{{ image_form.non_field_errors }}</p>
+			<!-- title -->
+			<p>{{ image_form.title.label_tag }} {{ image_form.title.help_text }}</p>
+			<p>
+				{{ image_form.title.errors }}
+				{{ image_form.title }}
+			</p>
+			<!-- file -->
+			<p>{{ image_form.imgfile.label_tag }} {{ image_form.imgfile.help_text }}</p>
+			<p>
+				{{ image_form.imgfile.errors }}
+				{{ image_form.imgfile }}
+			</p>
+			<p><input type="submit" value="Upload" /></p>
+		</form>	
+
 		<h2>Albums</h2>
 		<h3>New</h3>
 		<form action="{% url 'gallery:albumCreate' %}" method="post">
@@ -65,10 +84,10 @@
 			<ul class="gallery columns-3" id="selectable">
 				{% for image in images %}
 				<li id="{{ image.id }}">
-					<img src="{% static 'gallery/' %}/{{ image.location }}">
+					<img src="{{ image.imgfile.url }}">
 					<h3> {{ image.title }} </h3>
 					<p> Taken: {{ image.taken_date }} </p>
-					<button type="button" onclick="showFullScreen('{{ image.location }}')">View</button>
+					<button type="button" onclick="showFullScreen('{{ image.imgfile.url }}')">View</button>
 					{% if album %}
 						<form action="{% url 'gallery:albumRemoveImage' album.id image.id %}" method="post">
 							{% csrf_token %}
