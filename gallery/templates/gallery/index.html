@@ -42,6 +42,25 @@
 <div class="page">
 	<div class="pageRow">
 	<div class="navbar">
+		<h2>Add image</h2>
+		<form action="{% url 'gallery:imageCreate' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<p>{{ image_form.non_field_errors }}</p>
+			<!-- title -->
+			<p>{{ image_form.title.label_tag }} {{ image_form.title.help_text }}</p>
+			<p>
+				{{ image_form.title.errors }}
+				{{ image_form.title }}
+			</p>
+			<!-- file -->
+			<p>{{ image_form.imgfile.label_tag }} {{ image_form.imgfile.help_text }}</p>
+			<p>
+				{{ image_form.imgfile.errors }}
+				{{ image_form.imgfile }}
+			</p>
+			<p><input type="submit" value="Upload" /></p>
+		</form>	
+
 		<h2>Albums</h2>
 		<h3>New</h3>
 		<form action="{% url 'gallery:albumCreate' %}" method="post">

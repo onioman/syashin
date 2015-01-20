@@ -13,6 +13,13 @@ class Image(models.Model):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.add_date <= now
 
+    @staticmethod
+    def create(imgfile, title):
+        now = timezone.now()
+        new_image = Image(imgfile = imgfile, title = title,
+                add_date = now, taken_date = now)
+        return new_image
+
     def __str__(self):
         return "Image: %s taken %s"%(self.title, self.taken_date)
 

@@ -3,13 +3,18 @@ import datetime
 from django.utils import timezone
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.core.files.base import ContentFile
+from django.db.models import FileField
 
 from gallery.models import Image
 
 def create_image(location, days):
     time = timezone.now() + datetime.timedelta(days=days)
-    return Image.objects.create(location=location, 
+    #imgfile = FileField.save('test', ContentFile("test"), false)
+    image = Image.objects.create(
             add_date=time, taken_date=timezone.now())
+    image.imgfile.save('test', ContentFile("test"), False)
+    return image
 
 class ImageViewTest(TestCase):
     def test_index_view_with_no_image(self):
