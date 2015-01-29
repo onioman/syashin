@@ -84,3 +84,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = '/home/onio/work/media/'
 MEDIA_URL  = '/media/'
+
+import logging
+
+if DEBUG:
+    logging.basicConfig(
+        level = logging.DEBUG,
+        format = '%(asctime)s %(levelname)s %(message)s',
+    )

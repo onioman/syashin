@@ -3,6 +3,9 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
+import logging
+logger = logging.getLogger(__name__)
+
 class Image(models.Model):
     imgfile     = models.FileField(upload_to='upload/%Y%m%d')
     add_date    = models.DateTimeField('date added')
@@ -16,8 +19,21 @@ class Image(models.Model):
     @staticmethod
     def create(imgfile, title):
         now = timezone.now()
+
+        #image data
+        from PIL import Image as PILImage
+        import ExifTags
+        img = PILImage.open(imgfile)
+        exif_data = img._getexif()
+        exif = {
+            ExifTags.TAGS[k] : v
+            for k, v in exif_data.items()
+            if k in ExifTags.TAGS
+        }
+        logger.info(exif)
+        taken_date = datetime.datetime.strptime(exif['DateTimeOriginal'], "%Y:%m:%d %H:%M:%S")
         new_image = Image(imgfile = imgfile, title = title,
-                add_date = now, taken_date = now)
+                add_date = now, taken_date = taken_date)
         return new_image
 
     def __str__(self):
