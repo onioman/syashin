@@ -84,7 +84,7 @@
 			<ul class="gallery columns-3" id="selectable">
 				{% for image in images %}
 				<li id="{{ image.id }}">
-					<img src="{{ image.imgfile.url }}">
+					<img src="{{ image.thumbnail.url }}">
 					<h3> {{ image.title }} </h3>
 					<p> Taken: {{ image.taken_date }} </p>
 					<button type="button" onclick="showFullScreen('{{ image.imgfile.url }}')">View</button>

@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 class Image(models.Model):
     imgfile     = models.FileField(upload_to='upload/%Y%m%d')
+    thumbnail   = models.FileField(upload_to='thumbs/%Y%m%d')
     add_date    = models.DateTimeField('date added')
     taken_date  = models.DateTimeField('date taken')
     title       = models.CharField(max_length=100)
@@ -31,6 +32,10 @@ class Image(models.Model):
             if k in ExifTags.TAGS
         }
         logger.info(exif)
+
+        # thumbnails
+    
+
         taken_date = datetime.datetime.strptime(exif['DateTimeOriginal'], "%Y:%m:%d %H:%M:%S")
         new_image = Image(imgfile = imgfile, title = title,
                 add_date = now, taken_date = taken_date)
